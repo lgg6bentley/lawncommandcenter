@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lawn Applicator Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+     <link rel="stylesheet" href="styles.css">
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        input, select, button { margin: 5px; padding: 8px; width: 200px; }
+        button { padding: 10px; cursor: pointer; margin-top: 10px; }
+        .result-box { margin-top: 15px; padding: 10px; border: 1px solid #000; display: inline-block; }
+    </style>
+</head>
+<body>
+    <header>
+    <h2><i class="fas fa-flag-checkered"></i> Lawn Applicator Usage Calculator</h2>
+</header>
+
+    <label for="lawnSize">Lawn Size (sq ft): </label>
+    <input type="number" id="lawnSize" placeholder="Enter lawn size"><br>
+
+    <label for="product">Select Product:</label>
+    <select id="product" onchange="updateRates()">
+        <option value="0">-- Choose a product --</option>
+        <option value="fertilizer">Liquid Fertilizer</option>
+        <option value="fiesta">FIESTA</option>
+        <option value="granular">Granular Fertilizer</option>
+    </select><br>
+
+    <label for="applicationRate">Application Rate (gal/sq ft or kg/sq ft): </label>
+    <input type="number" id="applicationRate" readonly><br>
+
+    <label for="totalUsed">Total Product Applied (gal or kg): </label>
+    <input type="number" id="totalUsed" placeholder="Enter actual amount used"><br>
+
+    <button onclick="calculateUsage()">Submit</button>
+
+    <div class="result-box">
+        <h3 id="result"></h3>
+    </div>
+
+    
+
+<div class="sidebar">
+    <h3>🏌️‍♂️ Golf Links</h3>
+    <ul>
+    <li>
+    <i class="fas fa-calculator"></i> 
+    <a href="javascript:void(0);" onclick="openCalculatorWindow()">Calculator</a>
+</li>
+    <li><i class="fas fa-tv"></i> <a href="https://www.reddit.com/r/PuttStreams/hot/" target="_blank" rel="noopener">Golf TV</a></li>
+    <li><i class="fas fa-tag"></i> <a href="#">Coupons</a></li>
+    <li><i class="fas fa-flag"></i> <a href="#">The Hub</a></li>
+    <li><i class="fas fa-clipboard-list"></i> <a href="#">Lawn Care Tips</a></li>
+    <li><i class="fas fa-users"></i> <a href="#">Community Forum</a></li>
+    <li><i class="fas fa-money-bill"></i> <a href="#">Let's Make Money</a></li>
+    </ul>
+</div>
+
+    <script>
+        function updateRates() {
+    let productSelect = document.getElementById("product").value;
+    let applicationRateInput = document.getElementById("applicationRate");
+
+    if (productSelect === "fertilizer") {
+        applicationRateInput.value = 2.2; // Gallons per sq ft for liquid fertilizer
+    } else if (productSelect === "fiesta") {
+        applicationRateInput.value = 0.4; // ✅ Corrected to 400ml per 1,000 sq ft (0.4ml per sq ft)
+    } else if (productSelect === "granular") {
+        applicationRateInput.value = 0.75; // Kg per sq ft for granular fertilizer
+    } else {
+        applicationRateInput.value = ""; // Clears input if no product selected
+    }
+}
+
+        function calculateUsage() {
+            let lawnSize = parseFloat(document.getElementById("lawnSize").value);
+            let applicationRate = parseFloat(document.getElementById("applicationRate").value);
+            let totalUsed = parseFloat(document.getElementById("totalUsed").value);
+
+            if (isNaN(lawnSize) || lawnSize <= 0 || isNaN(applicationRate) || isNaN(totalUsed)) {
+                document.getElementById("result").innerText = "Please enter valid values.";
+                return;
+            }
+
+            // Expected product usage based on lawn size
+            let expectedUsage = lawnSize * applicationRate;
+            let variancePercent = ((totalUsed - expectedUsage) / expectedUsage) * 100;
+            let status = "";
+
+            if (variancePercent >= -5 && variancePercent <= 5) {
+                status = "✅ Within ideal range (-5% to +5%)";
+            } else if (variancePercent < -5) {
+                status = "⚠️ Under-applied! Consider increasing.";
+            } else {
+                status = "⚠️ Over-applied! Adjust for efficiency.";
+            }
+
+            document.getElementById("result").innerText = `Lawn Size: ${lawnSize.toFixed(2)} sq ft
+            \nExpected Usage: ${expectedUsage.toFixed(2)} gal/kg
+            \nActual Applied: ${totalUsed.toFixed(2)} gal/kg
+            \nVariance: ${variancePercent.toFixed(2)}%
+            \nStatus: ${status}`;
+        }
+
+        function openCalculatorWindow() {
+            window.open("calculator.html", "Calculator", "width=400,height=600");
+        }
+
+    </script>
+</body>
+</html>

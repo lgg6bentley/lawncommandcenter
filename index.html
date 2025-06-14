@@ -1,114 +1,227 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lawn Applicator Calculator</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-     <link rel="stylesheet" href="styles.css">
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
-        input, select, button { margin: 5px; padding: 8px; width: 200px; }
-        button { padding: 10px; cursor: pointer; margin-top: 10px; }
-        .result-box { margin-top: 15px; padding: 10px; border: 1px solid #000; display: inline-block; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lawn Applicator Calculator</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+
+    header.main-header {
+      background-color: #ffffff;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      border-bottom: 1px solid #ccc;
+      min-height: 60px;
+    }
+
+    header .logo {
+      font-size: 1.2rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .menu-btn {
+      background: #006400;
+      color: #fff;
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      margin-left: auto;
+      transition: all 0.15s ease;
+    }
+
+    .menu-btn .bar {
+      display: block;
+      width: 22px;
+      height: 3px;
+      background: #fff;
+      margin: 3px 0;
+      border-radius: 2px;
+    }
+
+    .menu-btn:active {
+      opacity: 0.85;
+      transform: scale(0.96);
+    }
+
+    #dropdownMenu {
+      display: none;
+      position: absolute;
+      top: 56px;
+      right: 8px;
+      background: #fff;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+    }
+
+    #dropdownMenu a {
+      display: block;
+      padding: 10px 16px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    main {
+      padding: 20px;
+      text-align: center;
+    }
+
+    input, select, button {
+      width: 100%;
+      max-width: 300px;
+      margin: 8px auto;
+      padding: 10px;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: #006400;
+      color: white;
+      border: none;
+      border-radius: 6px;
+    }
+
+    .result-box {
+      margin-top: 16px;
+      padding: 12px;
+      border: 1px solid #000;
+      display: inline-block;
+      background: #fff;
+      max-width: 320px;
+      word-wrap: break-word;
+    }
+
+    @media (min-width: 600px) {
+      main {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-    <h2><i class="fas fa-flag-checkered"></i> Lawn Applicator Usage Calculator</h2>
-</header>
+  <header class="main-header">
+    <div class="logo">
+      <i class="fas fa-flag-checkered"></i> Lawn Usage Calculator
+    </div>
+    <button id="menuBtn" class="menu-btn">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+    <div id="dropdownMenu">
+      <a href="calculator.html">Calculator</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="mkmoney.html">How to Make Money</a>
+    </div>
+  </header>
 
-    <label for="lawnSize">Lawn Size (sq ft): </label>
-    <input type="number" id="lawnSize" placeholder="Enter lawn size"><br>
+  <main>
+    <label for="lawnSize">Lawn Size (sq ft):</label>
+    <input type="number" id="lawnSize" placeholder="Enter lawn size" />
 
     <label for="product">Select Product:</label>
     <select id="product" onchange="updateRates()">
-        <option value="0">-- Choose a product --</option>
-        <option value="fertilizer">Liquid Fertilizer</option>
-        <option value="fiesta">FIESTA</option>
-        <option value="granular">Granular Fertilizer</option>
-    </select><br>
+      <option value="0">-- Choose a product --</option>
+      <option value="fertilizer">Liquid Fertilizer</option>
+      <option value="fiesta">FIESTA</option>
+      <option value="granular">Granular Fertilizer</option>
+    </select>
 
-    <label for="applicationRate">Application Rate (gal/sq ft or kg/sq ft): </label>
-    <input type="number" id="applicationRate" readonly><br>
+    <label for="applicationRate">Application Rate (gal/sq ft or kg/sq ft):</label>
+    <input type="number" id="applicationRate" readonly />
 
-    <label for="totalUsed">Total Product Applied (gal or kg): </label>
-    <input type="number" id="totalUsed" placeholder="Enter actual amount used"><br>
+    <label for="totalUsed">Total Product Applied (gal or kg):</label>
+    <input type="number" id="totalUsed" placeholder="Enter actual amount used" />
 
     <button onclick="calculateUsage()">Submit</button>
 
     <div class="result-box">
-        <h3 id="result"></h3>
+      <h3 id="result"></h3>
     </div>
+  </main>
 
-    
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const dropdownMenu = document.getElementById('dropdownMenu');
 
-<div class="sidebar">
-    <h3>🏌️‍♂️ Golf Links</h3>
-    <ul>
-    <li>
-    <i class="fas fa-calculator"></i> 
-    <a href="javascript:void(0);" onclick="openCalculatorWindow()">Calculator</a>
-</li>
-    <li><i class="fas fa-tv"></i> <a href="https://www.reddit.com/r/PuttStreams/hot/" target="_blank" rel="noopener">Golf TV</a></li>
-    <li><i class="fas fa-tag"></i> <a href="#">Coupons</a></li>
-    <li><i class="fas fa-flag"></i> <a href="#">The Hub</a></li>
-    <li><i class="fas fa-clipboard-list"></i> <a href="#">Lawn Care Tips</a></li>
-    <li><i class="fas fa-users"></i> <a href="#">Community Forum</a></li>
-    <li><i class="fas fa-money-bill"></i> <a href="#">Let's Make Money</a></li>
-    </ul>
-</div>
+    menuBtn.onclick = function (e) {
+      e.stopPropagation();
+      dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    };
 
-    <script>
-        function updateRates() {
-    let productSelect = document.getElementById("product").value;
-    let applicationRateInput = document.getElementById("applicationRate");
+    document.addEventListener('click', function () {
+      dropdownMenu.style.display = 'none';
+    });
 
-    if (productSelect === "fertilizer") {
-        applicationRateInput.value = 2.2; // Gallons per sq ft for liquid fertilizer
-    } else if (productSelect === "fiesta") {
-        applicationRateInput.value = 0.4; // ✅ Corrected to 400ml per 1,000 sq ft (0.4ml per sq ft)
-    } else if (productSelect === "granular") {
-        applicationRateInput.value = 0.75; // Kg per sq ft for granular fertilizer
-    } else {
-        applicationRateInput.value = ""; // Clears input if no product selected
+    function updateRates() {
+      const product = document.getElementById("product").value;
+      const rate = document.getElementById("applicationRate");
+
+      if (product === "fertilizer") {
+        rate.value = 2.2;
+      } else if (product === "fiesta") {
+        rate.value = 0.4;
+      } else if (product === "granular") {
+        rate.value = 0.75;
+      } else {
+        rate.value = "";
+      }
     }
-}
 
-        function calculateUsage() {
-            let lawnSize = parseFloat(document.getElementById("lawnSize").value);
-            let applicationRate = parseFloat(document.getElementById("applicationRate").value);
-            let totalUsed = parseFloat(document.getElementById("totalUsed").value);
+    function calculateUsage() {
+      const lawnSize = parseFloat(document.getElementById("lawnSize").value);
+      const rate = parseFloat(document.getElementById("applicationRate").value);
+      const used = parseFloat(document.getElementById("totalUsed").value);
+      const result = document.getElementById("result");
 
-            if (isNaN(lawnSize) || lawnSize <= 0 || isNaN(applicationRate) || isNaN(totalUsed)) {
-                document.getElementById("result").innerText = "Please enter valid values.";
-                return;
-            }
+      if (isNaN(lawnSize) || lawnSize <= 0 || isNaN(rate) || isNaN(used)) {
+        result.innerHTML = "Please enter valid values.";
+        return;
+      }
 
-            // Expected product usage based on lawn size
-            let expectedUsage = lawnSize * applicationRate;
-            let variancePercent = ((totalUsed - expectedUsage) / expectedUsage) * 100;
-            let status = "";
+      const expected = lawnSize * rate;
+      const variance = ((used - expected) / expected) * 100;
+      let status = "";
 
-            if (variancePercent >= -5 && variancePercent <= 5) {
-                status = "✅ Within ideal range (-5% to +5%)";
-            } else if (variancePercent < -5) {
-                status = "⚠️ Under-applied! Consider increasing.";
-            } else {
-                status = "⚠️ Over-applied! Adjust for efficiency.";
-            }
+      if (variance >= -5 && variance <= 5) {
+        status = "✅ Within ideal range (-5% to +5%)";
+      } else if (variance < -5) {
+        status = "⚠️ Under-applied! Consider increasing.";
+      } else {
+        status = "⚠️ Over-applied! Adjust for efficiency.";
+      }
 
-            document.getElementById("result").innerText = `Lawn Size: ${lawnSize.toFixed(2)} sq ft
-            \nExpected Usage: ${expectedUsage.toFixed(2)} gal/kg
-            \nActual Applied: ${totalUsed.toFixed(2)} gal/kg
-            \nVariance: ${variancePercent.toFixed(2)}%
-            \nStatus: ${status}`;
-        }
-
-        function openCalculatorWindow() {
-            window.open("calculator.html", "Calculator", "width=400,height=600");
-        }
-
-    </script>
+      result.innerHTML =
+        `Lawn Size: ${lawnSize.toFixed(2)} sq ft<br>` +
+        `Expected Usage: ${expected.toFixed(2)} gal/kg<br>` +
+        `Actual Applied: ${used.toFixed(2)} gal/kg<br>` +
+        `Variance: ${variance.toFixed(2)}%<br>` +
+        `Status: ${status}`;
+    }
+  </script>
 </body>
 </html>

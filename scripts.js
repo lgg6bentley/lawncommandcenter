@@ -1,4 +1,4 @@
-function updateRates() {
+ function updateRates() {
     const productSelect = document.getElementById("product").value;
     const applicationRateInput = document.getElementById("applicationRate");
     const body = document.body;
@@ -80,3 +80,31 @@ function calculate() {
 function openCalculatorWindow() {
     window.open("calculator.html", "Calculator", "width=400,height=500");
 }
+
+function toggleSidebar() {
+    document.querySelector(".sidebar").classList.toggle("open");
+}
+function toggleSidebar() {
+    let sidebar = document.querySelector(".sidebar");
+    sidebar.classList.toggle("open");
+}
+
+document.getElementById("menuBtn").addEventListener("click", function() {
+  let sidebar = document.getElementById("sidebar");
+  sidebar.style.left = (sidebar.style.left === "0px") ? "-200px" : "0px";
+});
+
+document.getElementById("calculatorBtn").addEventListener("click", function() {
+    window.open("calculator.html", "_blank");
+});
+
+document.getElementById("calculatorBtn").addEventListener("click", function() {
+    window.open("calculator.html", "_blank");
+});
+
+window.open("calculator.html", "Calculator", "width=400,height=600");
+
+document.getElementById("menuBtn").addEventListener("click", function() {
+    let menu = document.getElementById("dropdownMenu");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+});

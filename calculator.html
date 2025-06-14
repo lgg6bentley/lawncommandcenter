@@ -1,95 +1,294 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic Calculator</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <title>Grey Hustle Calculator</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #e8f5e9;
+      color: #222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    body {
+      background: #e8f5e9;
+    }
+
+    .calculator {
+      background: #fff;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 1.5px 8px rgba(44,62,80,0.08);
+      border-radius: 24px;
+      border: 1px solid #f5f5f5;
+    }
+    .calculator {
+      background: #fff;
+      border-radius: 20px;
+      border: 6px solid #ffffff;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      padding: 2rem;
+      width: 100%;
+      max-width: 360px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .badge {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 0.2rem;
+    }
+
+    .badge img {
+      max-height: 40px;
+      width: auto;
+      transition: transform 0.6s ease;
+    }
+
+    .badge img.spin {
+      transform: rotate(360deg);
+    }
+
+    .title {
+      text-align: center;
+      font-size: 1.4rem;
+      color: #2e7d32;
+      font-weight: 600;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 1px;
+      margin: 0;
+      padding-bottom: 0.5rem;
+      animation: fadeInTitle 0.8s ease-out both;
+    }
+
+    @keyframes fadeInTitle {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .display {
+      background: #f0f0f0;
+      font-size: 2rem;
+      text-align: right;
+      padding: 1rem;
+      border-radius: 12px;
+      min-height: 60px;
+      overflow-x: auto;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 0.75rem;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 10px;
+      background: #c8e6c9;
+      color: #2e7d32;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      background: #81c784;
+    }
+
+    .btn.operator {
+      background: #a5d6a7;
+    }
+
+    .btn.equal {
+      background: #2e7d32;
+      color: white;
+      grid-column: span 2;
+    }
+
+    .btn.utility {
+      background: #dcedc8;
+      color: #33691e;
+    }
+
+    .footer-tag {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      color: #4caf50;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .calculator { padding: 1.2rem; }
+      .display { font-size: 1.5rem; padding: 0.8rem; }
+      .btn { font-size: 1rem; padding: 0.8rem; }
+    }
+  </style>
 </head>
 <body>
-    <h3>🧮 Basic Calculator</h3>
-    <div id="calculator">
-  <input type="text" id="display" disabled placeholder="0" />
+  <div class="wrapper">
+    <div class="calculator" id="calc-root">
+      <div class="badge">
+        <img src="dollar-badge.svg" alt="Dollar Badge" id="badge" />
+      </div>
+      <h1 class="title">GREY HUSTLE CALCULATOR</h1>
+      <div class="display" id="display">0</div>
+      <div class="buttons">
+        <button class="btn utility" data-key="AC">AC</button>
+        <button class="btn utility" data-key="DEL">DEL</button>
+        <button class="btn operator" data-key="/">÷</button>
+        <button class="btn operator" data-key="*">×</button>
 
+        <button class="btn" data-key="7">7</button>
+        <button class="btn" data-key="8">8</button>
+        <button class="btn" data-key="9">9</button>
+        <button class="btn operator" data-key="-">−</button>
 
-    <div class="calc-buttons">
-  <!-- Row 1 -->
-  <button onclick="clearDisplay()">C</button>
-  <button onclick="appendToDisplay('%')">%</button>
-  <button onclick="appendToDisplay('/')">÷</button>
-  <button onclick="appendToDisplay('*')">×</button>
+        <button class="btn" data-key="4">4</button>
+        <button class="btn" data-key="5">5</button>
+        <button class="btn" data-key="6">6</button>
+        <button class="btn operator" data-key="+">+</button>
 
-  <!-- Row 2 -->
-  <button onclick="appendToDisplay('7')">7</button>
-  <button onclick="appendToDisplay('8')">8</button>
-  <button onclick="appendToDisplay('9')">9</button>
-  <button onclick="appendToDisplay('-')">−</button>
+        <button class="btn" data-key="1">1</button>
+        <button class="btn" data-key="2">2</button>
+        <button class="btn" data-key="3">3</button>
+        <button class="btn equal" data-key="=">=</button>
 
-  <!-- Row 3 -->
-  <button onclick="appendToDisplay('4')">4</button>
-  <button onclick="appendToDisplay('5')">5</button>
-  <button onclick="appendToDisplay('6')">6</button>
-  <button onclick="appendToDisplay('+')">+</button>
+        <button class="btn" data-key="0">0</button>
+        <button class="btn" data-key=".">.</button>
+        <button class="btn" style="visibility: hidden;"></button>
+        <button class="btn" style="visibility: hidden;"></button>
+      </div>
+    </div>
 
-  <!-- Row 4 -->
-  <button onclick="appendToDisplay('1')">1</button>
-  <button onclick="appendToDisplay('2')">2</button>
-  <button onclick="appendToDisplay('3')">3</button>
-  <button onclick="calculate()">=</button>
+    <div class="footer-tag">
+      <em>Precision is power.</em><br />
+      Built by <strong>Bentley</strong>
+    </div>
+  </div>
 
-  <!-- Row 5 -->
-  <button onclick="appendToDisplay('0')" class="zero-btn">0</button>
-  <button onclick="appendToDisplay('.')">.</button>
-  <button onclick="appendToDisplay('(')">(</button>
-  <button onclick="appendToDisplay(')')">)</button>
-</div>
-    <script>
-        function appendToDisplay(value) {
-            document.getElementById("display").value += value;
-        }
+  <script>
+    const display = document.getElementById('display');
+    const badge = document.getElementById('badge');
+    const clickAudio = new Audio('click.mp3');
+    clickAudio.volume = 0.2;
 
-        function clearDisplay() {
-            document.getElementById("display").value = "";
-        }
+    let current = '0';
+    let expression = '';
+    let resetNext = false;
 
-        function calculate() {
-            try {
-                document.getElementById("display").value = eval(document.getElementById("display").value);
-            } catch {
-                document.getElementById("display").value = "Error";
-            }
-        }
-
-        function appendToDisplay(value) {
-  document.getElementById("display").value += value;
-}
-
-function clearDisplay() {
-  document.getElementById("display").value = "";
-}
-
-function calculate() {
-  try {
-    const result = eval(document.getElementById("display").value);
-    document.getElementById("display").value = result;
-  } catch (e) {
-    document.getElementById("display").value = "Error";
-  }
-}
-
-document.addEventListener("keydown", function(event) {
-    const key = event.key;
-
-    if (!isNaN(key) || key === ".") {
-        appendToDisplay(key); // Numbers & decimal point
-    } else if (["+","-","*","/"].includes(key)) {
-        appendToDisplay(key); // Operators
-    } else if (key === "Enter") {
-        calculate(); // Equals key
-    } else if (key === "Escape") {
-        clearDisplay(); // Clear when pressing "Esc"
+    function updateDisplay() {
+      display.textContent = expression || '0';
     }
-});
-    </script>
-</body>
-</html>
+
+    function triggerSpin() {
+      badge.classList.add('spin');
+      setTimeout(() => badge.classList.remove('spin'), 600);
+    }
+
+    function inputNumber(num) {
+      if (resetNext) {
+        expression = '';
+        resetNext = false;
+      }
+      expression += num;
+      current = num;
+      updateDisplay();
+    }
+
+    function inputOperator(op) {
+      if (resetNext) resetNext = false;
+      const last = expression.slice(-1);
+      if (['+', '-', '*', '/'].includes(last)) {
+        expression = expression.slice(0, -1) + op;
+      } else {
+        expression += op;
+      }
+      updateDisplay();
+    }
+
+    function calculate() {
+      try {
+        const clean = expression.replace(/×/g, '*').replace(/÷/g, '/');
+        const result = eval(clean);
+        current = String(result);
+        expression = (result === Infinity || isNaN(result)) ? 'Error' : current;
+      } catch {
+        expression = 'Error';
+      }
+      resetNext = true;
+      updateDisplay();
+    }
+
+    function clearAll() {
+      current = '0';
+      expression = '';
+      resetNext = false;
+      updateDisplay();
+    }
+
+    function deleteLast() {
+      if (resetNext || expression === 'Error') {
+        clearAll();
+      } else {
+        expression = expression.slice(0, -1);
+        updateDisplay();
+      }
+    }
+
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        clickAudio.currentTime = 0;
+        clickAudio.play();
+        triggerSpin();
+        const key = btn.getAttribute('data-key');
+        if (!isNaN(key) || key === '.') {
+          inputNumber(key);
+        } else if (['+', '-', '*', '/'].includes(key)) {
+          inputOperator(key);
+        } else if (key === 'AC') {
+          clearAll();
+        } else if (key === 'DEL') {
+          deleteLast();
+        } else if (key === '=') {
+          calculate();
+        }
+      });
+    });
+
+    document.addEventListener('keydown', e => {
+      const key = e.key;
+      if ((key >= '0' && key <= '9') || key === '.') {
+        inputNumber(key);
+      } else if (['+', '-', '*', '/'].includes(key)) {
+        inputOperator(key);
+      } else if (key === 'Enter' || key === '=') {
+        e.preventDefault();
+        calculate();
+      } else if (key === 'Escape') {
+        clearAll();
+            } else if (key === 'Backspace') {
+              deleteLast();
+            }
+          });
+        </script>
+      </body>
+      </html>

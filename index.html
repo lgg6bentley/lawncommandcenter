@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -205,8 +205,11 @@
 
       const expected = lawnSize * rate;
       const variance = ((used - expected) / expected) * 100;
-      let status = "";
+      const bagWeight = 25; // Updated to 25 kg per bag
+      const bagsUsed = used / bagWeight;
+      const roundedBags = Math.ceil(bagsUsed); // for visual representation
 
+      let status = "";
       if (variance >= -5 && variance <= 5) {
         status = "✅ Within ideal range (-5% to +5%)";
       } else if (variance < -5) {
@@ -215,12 +218,20 @@
         status = "⚠️ Over-applied! Adjust for efficiency.";
       }
 
+      // Bag visual using emoji
+      let bagsVisual = "";
+      for (let i = 0; i < roundedBags; i++) {
+        bagsVisual += "🧳";
+      }
+
       result.innerHTML =
-        `Lawn Size: ${lawnSize.toFixed(2)} sq ft<br>` +
-        `Expected Usage: ${expected.toFixed(2)} gal/kg<br>` +
-        `Actual Applied: ${used.toFixed(2)} gal/kg<br>` +
-        `Variance: ${variance.toFixed(2)}%<br>` +
-        `Status: ${status}`;
+        Lawn Size: ${lawnSize.toFixed(2)} sq ft<br> +
+        Expected Usage: ${expected.toFixed(2)} gal/kg<br> +
+        Actual Applied: ${used.toFixed(2)} gal/kg<br> +
+        Variance: ${variance.toFixed(2)}%<br> +
+        Status: ${status}<br><br> +
+        🧮 Bags Used: ${bagsUsed.toFixed(2)} (25 kg per bag)<br> +
+        Visual: <div style="font-size: 1.5rem">${bagsVisual}</div>;
     }
   </script>
 </body>

@@ -2,13 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Lawn Applicator Calculator</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       font-family: Arial, sans-serif;
@@ -18,7 +16,7 @@
     }
 
     header.main-header {
-      background-color: #ffffff;
+      background-color: #fff;
       padding: 12px 16px;
       display: flex;
       justify-content: space-between;
@@ -28,7 +26,7 @@
       min-height: 60px;
     }
 
-    header .logo {
+    .logo {
       font-size: 1.2rem;
       font-weight: 600;
       display: flex;
@@ -48,22 +46,14 @@
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      margin-left: auto;
-      transition: all 0.15s ease;
     }
 
     .menu-btn .bar {
-      display: block;
       width: 22px;
       height: 3px;
       background: #fff;
       margin: 3px 0;
       border-radius: 2px;
-    }
-
-    .menu-btn:active {
-      opacity: 0.85;
-      transform: scale(0.96);
     }
 
     #dropdownMenu {
@@ -91,8 +81,7 @@
 
     input, select, button {
       width: 100%;
-      max-width: 300px;
-      margin: 8px auto;
+      max-width: 8px auto;
       padding: 10px;
       font-size: 1rem;
     }
@@ -102,23 +91,22 @@
       color: white;
       border: none;
       border-radius: 6px;
+      cursor: pointer;
     }
 
     .result-box {
       margin-top: 16px;
       padding: 12px;
       border: 1px solid #000;
-      display: inline-block;
       background: #fff;
+      display: inline-block;
       max-width: 320px;
       word-wrap: break-word;
+      text-align: left;
     }
 
     @media (min-width: 600px) {
-      main {
-        max-width: 500px;
-        margin: 0 auto;
-      }
+      main { max-width: 500px; margin: 0 auto; }
     }
   </style>
 </head>
@@ -133,9 +121,9 @@
       <span class="bar"></span>
     </button>
     <div id="dropdownMenu">
-      <a href="calculator.html">Calculator</a>
-      <a href="feedback.html">Feedback</a>
-      <a href="mkmoney.html">How to Make Money</a>
+      <a href="#">Calculator</a>
+      <a href="#">Feedback</a>
+      <a href="#">How to Make Money</a>
     </div>
   </header>
 
@@ -145,7 +133,7 @@
 
     <label for="product">Select Product:</label>
     <select id="product" onchange="updateRates()">
-      <option value="0">-- Choose a product --</option>
+      <option value="">-- Choose a product --</option>
       <option value="fertilizer">Liquid Fertilizer</option>
       <option value="fiesta">FIESTA</option>
       <option value="granular">Granular Fertilizer</option>
@@ -159,37 +147,31 @@
 
     <button onclick="calculateUsage()">Submit</button>
 
-    <div class="result-box">
+    <div class="result-box" id="resultBox">
       <h3 id="result"></h3>
     </div>
   </main>
 
   <script>
-    const menuBtn = document.getElementById('menuBtn');
-    const dropdownMenu = document.getElementById('dropdownMenu');
-
-    menuBtn.onclick = function (e) {
+    document.getElementById('menuBtn').addEventListener('click', function (e) {
       e.stopPropagation();
-      dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
-    };
+      const menu = document.getElementById('dropdownMenu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    });
 
-    document.addEventListener('click', function () {
-      dropdownMenu.style.display = 'none';
+    document.addEventListener('click', () => {
+      document.getElementById('dropdownMenu').style.display = 'none';
     });
 
     function updateRates() {
       const product = document.getElementById("product").value;
-      const rate = document.getElementById("applicationRate");
-
-      if (product === "fertilizer") {
-        rate.value = 2.2;
-      } else if (product === "fiesta") {
-        rate.value = 0.4;
-      } else if (product === "granular") {
-        rate.value = 1.36;
-      } else {
-        rate.value = "";
-      }
+      const rateInput = document.getElementById("applicationRate");
+      const rates = {
+        fertilizer: 2.2,
+        fiesta: 0.4,
+        granular: 1.36
+      };
+      rateInput.value = rates[product] || "";
     }
 
     function calculateUsage() {
@@ -199,7 +181,7 @@
       const result = document.getElementById("result");
 
       if (isNaN(lawnSize) || lawnSize <= 0 || isNaN(rate) || isNaN(used)) {
-        result.innerHTML = "Please enter valid values.";
+        result.innerHTML = "❗ Please enter valid numbers for all fields.";
         return;
       }
 
@@ -218,19 +200,17 @@
         status = "⚠️ Over-applied! Adjust for efficiency.";
       }
 
-      let bagsVisual = "";
-      for (let i = 0; i < roundedBags; i++) {
-        bagsVisual += "🧳";
-      }
+      const bagsVisual = "🧳".repeat(roundedBags);
 
-      result.innerHTML =
-        Lawn Size: ${lawnSize.toFixed(2)} sq ft<br> +
-        Expected Usage: ${expected.toFixed(2)} gal/kg<br> +
-        Actual Applied: ${used.toFixed(2)} gal/kg<br> +
-        Variance: ${variance.toFixed(2)}%<br> +
-        Status: ${status}<br><br> +
-        🧮 Bags Used: ${bagsUsed.toFixed(2)} (25 kg per bag)<br> +
-        Visual: <div style="font-size: 1.5rem">${bagsVisual}</div>;
+      result.innerHTML = `
+        <strong>Lawn Size:</strong> ${lawnSize.toFixed(2)} sq ft<br>
+        <strong>Expected Usage:</strong> ${expected.toFixed(2)} gal/kg<br>
+        <strong>Actual Applied:</strong> ${used.toFixed(2)} gal/kg<br>
+        <strong>Variance:</strong> ${variance.toFixed(2)}%<br>
+        <strong>Status:</strong> ${status}<br><br>
+        <strong>🧮 Bags Used:</strong> ${bagsUsed.toFixed(2)} (25 kg per bag)<br>
+        <strong>Visual:</strong> <div style="font-size: 1.5rem">${bagsVisual}</div>
+      `;
     }
   </script>
 </body>

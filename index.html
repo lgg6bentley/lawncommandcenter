@@ -17,7 +17,7 @@
       background-color: #fff;
       padding: 12px 16px;
       display: flex;
-      justify-content: space-between;
+      justify-content:space-between;
       align-items: center;
       position: relative;
       border-bottom: 1px solid #ccc;
@@ -57,7 +57,7 @@
       right: 8px;
       background: #fff;
       border: 1px solid #ccc;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       z-index: 100;
     }
     #dropdownMenu a {
@@ -72,7 +72,6 @@
     }
     input, select, button {
       width: 100%;
-      max-width: 8px auto;
       padding: 10px;
       font-size: 1rem;
     }
@@ -125,11 +124,14 @@
       <option value="fertilizer">Liquid Fertilizer</option>
       <option value="fiesta">FIESTA</option>
       <option value="granular">Granular Fertilizer</option>
-      <option value="xfa">Alfalfa</option>
+      <option value="xfa">XFA Alfalfa 2kg</option>
     </select>
 
     <label for="applicationRate">Application Rate (gal/sq ft or kg/sq ft):</label>
     <input type="number" id="applicationRate" readonly />
+
+    <label for="temperature">Temperature (°C):</label>
+    <input type="number" id="temperature" placeholder="Enter current temp" />
 
     <label for="totalUsed">Total Product Applied (gal or kg):</label>
     <input type="number" id="totalUsed" placeholder="Enter actual amount used" />
@@ -168,10 +170,17 @@
       const lawnSize = parseFloat(document.getElementById("lawnSize").value);
       const rate = parseFloat(document.getElementById("applicationRate").value);
       const used = parseFloat(document.getElementById("totalUsed").value);
+      const product = document.getElementById("product").value;
+      const temp = parseFloat(document.getElementById("temperature").value);
       const result = document.getElementById("result");
 
-      if (isNaN(lawnSize) || lawnSize <= 0 || isNaN(rate) || isNaN(used)) {
+      if (isNaN(lawnSize) || lawnSize <= 0 || isNaN(rate) || isNaN(used) || isNaN(temp)) {
         result.innerHTML = "❗ Please enter valid numbers for all fields.";
+        return;
+      }
+
+      if (product === "fiesta" && temp >= 28) {
+        result.innerHTML = "⚠️ Spraying FIESTA is not recommended above 28°C due to reduced effectiveness and possible turf stress.";
         return;
       }
 
@@ -196,6 +205,7 @@
         <strong>Lawn Size:</strong> ${lawnSize.toFixed(2)} sq ft<br>
         <strong>Expected Usage:</strong> ${expected.toFixed(2)} gal/kg<br>
         <strong>Actual Applied:</strong> ${used.toFixed(2)} gal/kg<br>
+        <strong>Temperature:</strong> ${temp.toFixed(1)} °C<br>
         <strong>Variance:</strong> ${variance.toFixed(2)}%<br>
         <strong>Status:</strong> ${status}<br><br>
         <strong>🧮 Bags Used:</strong> ${bagsUsed.toFixed(2)} (25 kg per bag)<br>

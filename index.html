@@ -7,14 +7,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
   <style>
     * { box-sizing: border-box; }
-
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
       background: #f4f4f4;
     }
-
     header.main-header {
       background-color: #fff;
       padding: 12px 16px;
@@ -25,7 +23,6 @@
       border-bottom: 1px solid #ccc;
       min-height: 60px;
     }
-
     .logo {
       font-size: 1.2rem;
       font-weight: 600;
@@ -33,7 +30,6 @@
       align-items: center;
       gap: 8px;
     }
-
     .menu-btn {
       background: #006400;
       color: #fff;
@@ -47,7 +43,6 @@
       align-items: center;
       cursor: pointer;
     }
-
     .menu-btn .bar {
       width: 22px;
       height: 3px;
@@ -55,7 +50,6 @@
       margin: 3px 0;
       border-radius: 2px;
     }
-
     #dropdownMenu {
       display: none;
       position: absolute;
@@ -66,26 +60,22 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       z-index: 100;
     }
-
     #dropdownMenu a {
       display: block;
       padding: 10px 16px;
       text-decoration: none;
       color: #333;
     }
-
     main {
       padding: 20px;
       text-align: center;
     }
-
     input, select, button {
       width: 100%;
       max-width: 8px auto;
       padding: 10px;
       font-size: 1rem;
     }
-
     button {
       background-color: #006400;
       color: white;
@@ -93,7 +83,6 @@
       border-radius: 6px;
       cursor: pointer;
     }
-
     .result-box {
       margin-top: 16px;
       padding: 12px;
@@ -104,7 +93,6 @@
       word-wrap: break-word;
       text-align: left;
     }
-
     @media (min-width: 600px) {
       main { max-width: 500px; margin: 0 auto; }
     }
@@ -121,7 +109,7 @@
       <span class="bar"></span>
     </button>
     <div id="dropdownMenu">
-    <a href="calculator.html">Calculator</a>
+      <a href="calculator.html">Calculator</a>
       <a href="#">Feedback</a>
       <a href="#">How to Make Money</a>
     </div>
@@ -137,6 +125,7 @@
       <option value="fertilizer">Liquid Fertilizer</option>
       <option value="fiesta">FIESTA</option>
       <option value="granular">Granular Fertilizer</option>
+      <option value="xfa">Alfalfa</option>
     </select>
 
     <label for="applicationRate">Application Rate (gal/sq ft or kg/sq ft):</label>
@@ -169,7 +158,8 @@
       const rates = {
         fertilizer: 2.2,
         fiesta: 0.4,
-        granular: 1.36
+        granular: 1.36,
+        xfa: 0.8
       };
       rateInput.value = rates[product] || "";
     }

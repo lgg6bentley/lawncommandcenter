@@ -2,94 +2,130 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Grey Hustle – Lawn Calculator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
+  <title>Lawn Usage Calculator</title>
   <style>
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
       background: #f4f4f4;
+      margin: 0;
+      padding: 0;
     }
 
-    nav {
-      background: #2e7d32;
-      padding: 12px 24px;
+    header {
+      background-color: #ffffff;
+      padding: 12px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      color: white;
-      font-family: 'Orbitron', sans-serif;
+      border-bottom: 1px solid #ccc;
+      position: relative;
     }
 
-    .nav-left {
+    .logo {
       font-size: 1.5rem;
-    }
-
-    .nav-right a {
-      margin-left: 18px;
-      color: white;
-      text-decoration: none;
       font-weight: bold;
+      color: #2e7d32;
     }
 
-    .nav-right a:hover {
-      text-decoration: underline;
+    .menu-btn {
+      background: #006400;
+      color: #fff;
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .menu-btn .bar {
+      width: 22px;
+      height: 3px;
+      background: #fff;
+      margin: 3px 0;
+      border-radius: 2px;
+    }
+
+    .dropdown-menu {
+      display: none;
+      flex-direction: column;
+      background: #ffffff;
+      border: 1px solid #ccc;
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .dropdown-menu a {
+      text-decoration: none;
+      color: #2e7d32;
+      padding: 0.5rem 0;
+      font-weight: 600;
+    }
+
+    .dropdown-menu a:hover {
+      color: #43a047;
     }
 
     main {
-      max-width: 600px;
-      margin: 80px auto;
       padding: 20px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
     }
 
     input, select, button {
-      display: block;
       width: 100%;
       max-width: 300px;
-      margin: 10px auto;
+      margin: 8px auto;
       padding: 10px;
       font-size: 1rem;
+      display: block;
     }
 
-    .submit {
+    button {
       background-color: #006400;
       color: white;
       border: none;
       border-radius: 6px;
-      cursor: pointer;
     }
 
     .result-box {
-      margin-top: 20px;
-      padding: 10px;
-      background: #fafafa;
-      border: 1px solid #aaa;
-      text-align: center;
-      max-width: 360px;
+      margin-top: 16px;
+      padding: 12px;
+      background: #fff;
+      border: 1px solid #000;
+      max-width: 350px;
       margin-inline: auto;
     }
   </style>
 </head>
 <body>
 
-  <nav>
-    <div class="nav-left">🌫️ Grey Hustle</div>
-    <div class="nav-right">
-      <a href="index.html">Dashboard</a>
-      <a href="calculator.html">Calculator</a>
-      <a href="crypto.html">Crypto</a>
-      <a href="focus.html">Focus</a>
-      <a href="feedback.html">Feedback</a>
+  <header>
+    <div class="logo">🌿 Lawn Usage Calculator</div>
+    <button id="menuBtn" class="menu-btn" aria-label="Open menu">
+      <span style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Open menu</span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+    <div id="dropdownMenu" class="dropdown-menu">
+      <a href="index.html">🏠 Home</a>
+      <a href="dashboard.html">📊 Dashboard</a>
+      <a href="calculator.html">📐 Calculator</a>
+      <a href="feedback.html">💬 Feedback</a>
+      <a href="mkmoney.html">💰 How to Make Money</a>
     </div>
-  </nav>
+  </header>
 
   <main>
-    <h2>🌿 Lawn Application Calculator</h2>
-
     <label for="lawnSize">Lawn Size (sq ft):</label>
     <input type="number" id="lawnSize" placeholder="Enter lawn size" />
 
@@ -107,7 +143,7 @@
     <label for="totalUsed">Actual Applied (kg or gal):</label>
     <input type="number" id="totalUsed" placeholder="Enter amount used" />
 
-    <button class="submit" onclick="calculateUsage()">Submit</button>
+    <button onclick="calculateUsage()">Calculate</button>
 
     <div class="result-box">
       <h3 id="result"></h3>
@@ -115,14 +151,32 @@
   </main>
 
   <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+
+    menuBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!menuBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownMenu.style.display = "none";
+      }
+    });
+
     function updateRates() {
       const product = document.getElementById("product").value;
       const rateInput = document.getElementById("applicationRate");
+
       const rates = {
+        "fertilizer": 0.0022,
+        "fiesta": 0.0004,
+        "fiesta": 0.4,
         "fertilizer": 2.2,
-        "fiesta": 400,
         "granular": 1.36
       };
+
       rateInput.value = rates[product] || "";
     }
 
@@ -139,8 +193,8 @@
 
       const expected = lawnSize * rate;
       const variance = ((used - expected) / expected) * 100;
-      let status = "";
 
+      let status = "";
       if (Math.abs(variance) <= 5) {
         status = "✅ Within ideal range.";
       } else if (variance < -5) {
@@ -151,9 +205,9 @@
 
       result.innerHTML = `
         Lawn Size: ${lawnSize.toFixed(2)} sq ft<br>
-        Expected: ${expected.toFixed(2)}<br>
-        Used: ${used.toFixed(2)}<br>
-        Variance: ${variance.toFixed(1)}%<br>
+        Expected Usage: ${expected.toFixed(2)}<br>
+        Actual Used: ${used.toFixed(2)}<br>
+        Variance: ${variance.toFixed(2)}%<br>
         ${status}
       `;
     }

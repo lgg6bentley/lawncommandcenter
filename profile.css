@@ -1,0 +1,55 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f1f8f4;
+  color: #2e7d32;
+  margin: 0;
+  padding: 2rem;
+}
+
+.profile-editor {
+  max-width: 600px;
+  margin: auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+h1, h2 {
+  font-family: 'Orbitron', sans-serif;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+input, textarea {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-top: 0.3rem;
+}
+
+button {
+  margin-top: 1.5rem;
+  padding: 0.8rem;
+  background: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Orbitron', sans-serif;
+  cursor: pointer;
+}
+
+.preview {
+  margin-top: 2rem;
+  background: #e8f5e9;
+  padding: 1rem;
+  border-radius: 8px;
+}

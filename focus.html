@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podmore Focus Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .timer-container {
+            background: #fff;
+            padding: 2em 3em;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .timer {
+            font-size: 4em;
+            margin: 0.5em 0;
+            color: #2d7a2d;
+            letter-spacing: 0.1em;
+        }
+        button {
+            font-size: 1.1em;
+            padding: 0.5em 1.5em;
+            margin: 0.5em;
+            border: none;
+            border-radius: 6px;
+            background: #2d7a2d;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #256025;
+        }
+        .label {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 0.5em;
+        }
+    </style>
+</head>
+<body>
+    <div class="timer-container">
+        <div class="label">Podmore Focus Timer</div>
+        <div class="timer" id="timer">25:00</div>
+        <button onclick="startTimer()">Start</button>
+        <button onclick="pauseTimer()">Pause</button>
+        <button onclick="resetTimer()">Reset</button>
+    </div>
+    <script>
+        let duration = 25 * 60; // 25 minutes
+        let timeLeft = duration;
+        let timerInterval = null;
+        const timerDisplay = document.getElementById('timer');
+
+        function updateDisplay() {
+            const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            const seconds = (timeLeft % 60).toString().padStart(2, '0');
+            timerDisplay.textContent = `${minutes}:${seconds}`;
+        }
+
+        function startTimer() {
+            if (timerInterval) return;
+            timerInterval = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    updateDisplay();
+                } else {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    alert('Focus session complete!');
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            timeLeft = duration;
+            updateDisplay();
+        }
+
+        updateDisplay();
+    </script>
+</body>
+</html>

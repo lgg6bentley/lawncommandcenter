@@ -2,33 +2,83 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Grey Hustle HQ – Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <title>Lawn Applicator Calculator</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f4f4f4;
     }
 
-    nav {
-      background: #2e7d32;
-      padding: 12px 24px;
+    header.main-header {
+      background-color: #ffffff;
+      padding: 12px 16px;
       display: flex;
-      justify-content: space-between;
+      justify-content:space-between;
       align-items: center;
-      color: white;
-      font-family: 'Orbitron', sans-serif;
+      position: relative;
+      border-bottom: 1px solid #ccc;
+      min-height: 60px;
     }
 
-    .nav-left {
-      font-size: 1.5rem;
+    header .logo {
+      font-size: 1.2rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .nav-right a {
-      margin-left: 18px;
-      color: white;
+    .menu-btn {
+      background: #006400;
+      color: #fff;
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      margin-left: auto;
+      transition: all 0.15s ease;
+    }
+
+    .menu-btn .bar {
+      display: block;
+      width: 22px;
+      height: 3px;
+      background: #fff;
+      margin: 3px 0;
+      border-radius: 2px;
+    }
+
+    .menu-btn:active {
+      opacity: 0.85;
+      transform: scale(0.96);
+    }
+
+    #dropdownMenu {
+      display: none;
+      position: absolute;
+      top: 56px;
+      right: 8px;
+      background: #fff;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+    }
+
+    #dropdownMenu a {
+      display: block;
+      padding: 10px 16px;
       text-decoration: none;
       font-weight: bold;
     }
@@ -36,7 +86,6 @@
     .nav-right a:hover {
       text-decoration: underline;
     }
-
     main {
       max-width: 700px;
       margin: 80px auto;
@@ -50,100 +99,138 @@
       margin-top: 0;
     }
 
-    input, button {
-      padding: 10px;
-      font-size: 1rem;
+    input, select, button {
       width: 100%;
       max-width: 300px;
-      margin-top: 10px;
+      margin: 8px auto;
+      padding: 10px;
+      font-size: 1rem;
     }
 
-    #weatherResult {
-      margin-top: 20px;
+    button {
+      background-color: #006400;
+      color: white;
+      border: none;
+      border-radius: 6px;
     }
 
-    #weatherIcon {
-      display: block;
-      margin: 10px 0;
-      height: 60px;
+    .result-box {
+      margin-top: 16px;
+      padding: 12px;
+      border: 1px solid #000;
+      display: inline-block;
+      background: #fff;
+      max-width: 320px;
+      word-wrap: break-word;
+    }
+
+    @media (min-width: 600px) {
+      main {
+        max-width: 500px;
+        margin: 0 auto;
+      }
     }
   </style>
 </head>
-<body onload="getGreeting()">
-
-  <nav>
-    <div class="nav-left">🌫️ Grey Hustle</div>
-    <div class="nav-right">
-      <a href="index.html">Dashboard</a>
-      <a href="calculator.html">Calculator</a>
-      <a href="crypto.html">Crypto</a>
-      <a href="focus.html">Focus</a>
-      <a href="feedback.html">Feedback</a>
+<body>
+  <header class="main-header">
+    <div class="logo">
+      <i class="fas fa-flag-checkered"></i> Lawn Usage Calculator
     </div>
-  </nav>
+    <button id="menuBtn" class="menu-btn">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+    <div id="dropdownMenu">
+      <a href="calculator.html">Calculator</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="mkmoney.html">How to Make Money</a>
+    </div>
+  </header>
 
   <main>
-    <h1 id="greeting">Welcome</h1>
+    <label for="lawnSize">Lawn Size (sq ft):</label>
+    <input type="number" id="lawnSize" placeholder="Enter lawn size" />
 
-    <section>
-      <h2>🌤️ Weather</h2>
-      <input type="text" id="cityInput" placeholder="Enter your city (e.g. Mississauga)" />
-      <button onclick="getWeather()">Get Weather</button>
-      <img id="weatherIcon" alt="Weather icon" style="display:none;" />
-      <div id="weatherResult">
-        <p id="weatherLocation"></p>
-        <p id="weatherTemp"></p>
-        <p id="weatherDesc"></p>
-      </div>
-    </section>
+    <label for="product">Select Product:</label>
+    <select id="product" onchange="updateRates()">
+      <option value="0">-- Choose a product --</option>
+      <option value="fertilizer">Liquid Fertilizer</option>
+      <option value="fiesta">FIESTA</option>
+      <option value="granular">Granular Fertilizer</option>
+    </select>
+
+    <label for="applicationRate">Application Rate (gal/sq ft or kg/sq ft):</label>
+    <input type="number" id="applicationRate" readonly />
+
+    <label for="totalUsed">Total Product Applied (gal or kg):</label>
+    <input type="number" id="totalUsed" placeholder="Enter actual amount used" />
+
+    <button onclick="calculateUsage()">Submit</button>
+
+    <div class="result-box">
+      <h3 id="result"></h3>
+    </div>
   </main>
 
   <script>
-    function getGreeting() {
-      const hour = new Date().getHours();
-      const name = "Bentley";
-      let greeting = "Welcome";
+    const menuBtn = document.getElementById('menuBtn');
+    const dropdownMenu = document.getElementById('dropdownMenu');
 
-      if (hour >= 5 && hour < 12) greeting = "🌅 Good morning";
-      else if (hour >= 12 && hour < 17) greeting = "☀️ Good afternoon";
-      else if (hour >= 17 && hour < 22) greeting = "🌇 Good evening";
-      else greeting = "🌙 Burning the midnight oil?";
+    menuBtn.onclick = function (e) {
+      e.stopPropagation();
+      dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    };
 
-      document.getElementById("greeting").textContent = `${greeting}, ${name}`;
+    document.addEventListener('click', function () {
+      dropdownMenu.style.display = 'none';
+    });
+
+    function updateRates() {
+      const product = document.getElementById("product").value;
+      const rate = document.getElementById("applicationRate");
+
+      if (product === "fertilizer") {
+        rate.value = 2.2;
+      } else if (product === "fiesta") {
+        rate.value = 0.4;
+      } else if (product === "granular") {
+        rate.value = 0.75;
+      } else {
+        rate.value = "";
+      }
     }
 
-    async function getWeather() {
-      const city = document.getElementById("cityInput").value.trim();
-      if (!city) return;
+    function calculateUsage() {
+      const lawnSize = parseFloat(document.getElementById("lawnSize").value);
+      const rate = parseFloat(document.getElementById("applicationRate").value);
+      const used = parseFloat(document.getElementById("totalUsed").value);
+      const result = document.getElementById("result");
 
-      const apiKey = "YOUR_API_KEY"; // Replace with your OpenWeatherMap key
-      const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
-
-      try {
-        const res = await fetch(url);
-        const data = await res.json();
-
-        if (data.cod !== 200) {
-          document.getElementById("weatherLocation").textContent = "❌ City not found.";
-          document.getElementById("weatherIcon").style.display = "none";
-          return;
-        }
-
-        const { name, sys, main, weather } = data;
-        const iconCode = weather[0].icon;
-        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
-
-        document.getElementById("weatherLocation").textContent = `${name}, ${sys.country}`;
-        document.getElementById("weatherTemp").textContent = `${main.temp.toFixed(1)}°C`;
-        document.getElementById("weatherDesc").textContent = weather[0].description;
-        const icon = document.getElementById("weatherIcon");
-        icon.src = iconUrl;
-        icon.style.display = "block";
-      } catch (err) {
-        console.error("Weather error:", err);
-        document.getElementById("weatherLocation").textContent = "🌐 Network error.";
-        document.getElementById("weatherIcon").style.display = "none";
+      if (isNaN(lawnSize) || lawnSize <= 0 || isNaN(rate) || isNaN(used)) {
+        result.innerHTML = "Please enter valid values.";
+        return;
       }
+
+      const expected = lawnSize * rate;
+      const variance = ((used - expected) / expected) * 100;
+      let status = "";
+
+      if (variance >= -5 && variance <= 5) {
+        status = "✅ Within ideal range (-5% to +5%)";
+      } else if (variance < -5) {
+        status = "⚠️ Under-applied! Consider increasing.";
+      } else {
+        status = "⚠️ Over-applied! Adjust for efficiency.";
+      }
+
+      result.innerHTML =
+        `Lawn Size: ${lawnSize.toFixed(2)} sq ft<br>` +
+        `Expected Usage: ${expected.toFixed(2)} gal/kg<br>` +
+        `Actual Applied: ${used.toFixed(2)} gal/kg<br>` +
+        `Variance: ${variance.toFixed(2)}%<br>` +
+        `Status: ${status}`;
     }
   </script>
 

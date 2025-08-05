@@ -21,7 +21,7 @@ function updateRates() {
             body.classList.add("theme-granular");
             break;
         case "grubcontrol":
-            applicationRateInput.value = 15000; // Nematodes per 1000 sq ft
+            applicationRateInput.value = 15000;
             body.classList.add("theme-grub");
             break;
         default:

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lawn Usage Calculator</title>
   <style>
+    /* styling remains unchanged */
     body {
       font-family: Arial, sans-serif;
       background: #f4f4f4;
@@ -129,7 +130,7 @@
     <input type="number" id="lawnSize" placeholder="Enter lawn size" />
 
     <label for="product">Select Product:</label>
-    <select id="product" onchange="updateRates()">
+    <select id="product">
       <option value="">-- Choose a product --</option>
       <option value="fertilizer">Liquid Fertilizer</option>
       <option value="fiesta">FIESTA</option>
@@ -153,6 +154,28 @@
   <script>
     const menuBtn = document.getElementById("menuBtn");
     const dropdownMenu = document.getElementById("dropdownMenu");
+    const productSelect = document.getElementById("product");
+
+    const rates = {
+      "fertilizer": 2.2,
+      "fiesta": 0.4,
+      "granular": 1.36,
+      "grubcontrol": 15000
+    };
+
+    function updateRates() {
+      const product = productSelect.value;
+      const rateInput = document.getElementById("applicationRate");
+      rateInput.value = rates[product] || "";
+    }
+
+    // Attach change listener
+    productSelect.addEventListener("change", updateRates);
+
+    // Initialize rate if already selected or default
+    document.addEventListener("DOMContentLoaded", () => {
+      updateRates();
+    });
 
     menuBtn.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -165,23 +188,9 @@
       }
     });
 
-    function updateRates() {
-      const product = document.getElementById("product").value;
-      const rateInput = document.getElementById("applicationRate");
-
-      const rates = {
-        "fertilizer": 2.2,           // gal per 1,000 sq ft
-        "fiesta": 0.4,               // gal per 1,000 sq ft
-        "granular": 1.36,            // kg per 1,000 sq ft
-        "grubcontrol": 15000         // nematodes per 1,000 sq ft
-      };
-
-      rateInput.value = rates[product] || "";
-    }
-
     function calculateUsage() {
       const lawnSize = parseFloat(document.getElementById("lawnSize").value);
-      const product = document.getElementById("product").value;
+      const product = productSelect.value;
       const rate = parseFloat(document.getElementById("applicationRate").value);
       const used = parseFloat(document.getElementById("totalUsed").value);
       const result = document.getElementById("result");

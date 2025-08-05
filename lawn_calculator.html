@@ -117,10 +117,10 @@
       <span class="bar"></span>
     </button>
     <div id="dropdownMenu" class="dropdown-menu">
-            <a href="dashboard.html">📊 Dashboard</a>
+      <a href="dashboard.html">📊 Dashboard</a>
       <a href="calculator.html">📐 Calculator</a>
-            <a href="mkmoney.html">💰 How to Make Money</a>
-            <a href="hotgirl.html">Hot Girl of The Week</a>
+      <a href="mkmoney.html">💰 How to Make Money</a>
+      <a href="hotgirl.html">Hot Girl of The Week</a>
     </div>
   </header>
 
@@ -134,12 +134,13 @@
       <option value="fertilizer">Liquid Fertilizer</option>
       <option value="fiesta">FIESTA</option>
       <option value="granular">Granular Fertilizer</option>
+      <option value="grubcontrol">Grub Control (Nematodes)</option>
     </select>
 
-    <label for="applicationRate">Rate (kg/ft² or gal/ft²):</label>
+    <label for="applicationRate">Rate (per 1,000 sq ft):</label>
     <input type="number" id="applicationRate" readonly />
 
-    <label for="totalUsed">Actual Applied (kg or gal):</label>
+    <label for="totalUsed">Actual Applied (gal, kg, or nematodes):</label>
     <input type="number" id="totalUsed" placeholder="Enter amount used" />
 
     <button onclick="calculateUsage()">Calculate</button>
@@ -169,11 +170,10 @@
       const rateInput = document.getElementById("applicationRate");
 
       const rates = {
-        "fertilizer": 0.0022,
-        "fiesta": 0.0004,
-        "fiesta": 0.4,
-        "fertilizer": 2.2,
-        "granular": 1.36
+        "fertilizer": 2.2,           // gal per 1,000 sq ft
+        "fiesta": 0.4,               // gal per 1,000 sq ft
+        "granular": 1.36,            // kg per 1,000 sq ft
+        "grubcontrol": 15000         // nematodes per 1,000 sq ft
       };
 
       rateInput.value = rates[product] || "";
@@ -181,6 +181,7 @@
 
     function calculateUsage() {
       const lawnSize = parseFloat(document.getElementById("lawnSize").value);
+      const product = document.getElementById("product").value;
       const rate = parseFloat(document.getElementById("applicationRate").value);
       const used = parseFloat(document.getElementById("totalUsed").value);
       const result = document.getElementById("result");
@@ -190,7 +191,8 @@
         return;
       }
 
-      const expected = lawnSize * rate;
+      const sizeUnits = lawnSize / 1000;
+      const expected = sizeUnits * rate;
       const variance = ((used - expected) / expected) * 100;
 
       let status = "";
@@ -202,10 +204,12 @@
         status = "⚠️ Over-applied.";
       }
 
+      const unitLabel = product === "grubcontrol" ? "nematodes" : (product === "granular" ? "kg" : "gal");
+
       result.innerHTML = `
         Lawn Size: ${lawnSize.toFixed(2)} sq ft<br>
-        Expected Usage: ${expected.toFixed(2)}<br>
-        Actual Used: ${used.toFixed(2)}<br>
+        Expected Usage: ${expected.toFixed(2)} ${unitLabel}<br>
+        Actual Used: ${used.toFixed(2)} ${unitLabel}<br>
         Variance: ${variance.toFixed(2)}%<br>
         ${status}
       `;

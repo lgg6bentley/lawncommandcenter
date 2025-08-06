@@ -2,88 +2,134 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Grey Hustle – Lawn Calculator</title>
+  <title>Lawn Calculator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
+    :root {
+      --primary: #1b4726;
+      --accent: #ffffff;
+      --bg-gradient: linear-gradient(135deg, #1b4726, #123219);
+      --input-bg: #d9efd9;
     }
-
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: var(--bg-gradient);
+      color: var(--accent);
+      padding: 2rem;
+      min-height: 100vh;
+    }
     nav {
-      background: #2e7d32;
+      background: var(--primary);
       padding: 12px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      color: white;
       font-family: 'Orbitron', sans-serif;
     }
-
     .nav-left {
       font-size: 1.5rem;
     }
-
     .nav-right a {
       margin-left: 18px;
-      color: white;
+      color: var(--accent);
       text-decoration: none;
       font-weight: bold;
+      transition: text-decoration 0.3s ease;
     }
-
     .nav-right a:hover {
       text-decoration: underline;
     }
-
     main {
       max-width: 600px;
       margin: 80px auto;
       padding: 20px;
-      background: white;
+      background: #ffffff;
+      color: #1b4726;
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
-
-    input, select, button {
+    h2 {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 1rem;
       display: block;
+    }
+    input,
+    select,
+    button {
       width: 100%;
-      max-width: 300px;
+      max-width: 320px;
+      padding: 0.75rem;
       margin: 10px auto;
-      padding: 10px;
       font-size: 1rem;
-    }
-
-    .submit {
-      background-color: #006400;
-      color: white;
       border: none;
-      border-radius: 6px;
-      cursor: pointer;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      display: block;
     }
-
+    input,
+    select {
+      background-color: var(--input-bg);
+      color: #1b4726;
+    }
+    input:focus, select:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(27, 71, 38, 0.6);
+    }
+    button {
+      background-color: var(--primary);
+      color: var(--accent);
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+    }
     .result-box {
       margin-top: 20px;
-      padding: 10px;
-      background: #fafafa;
-      border: 1px solid #aaa;
+      padding: 1rem;
+      background: var(--input-bg);
+      border: 2px solid #aaa;
+      border-radius: 8px;
       text-align: center;
       max-width: 360px;
       margin-inline: auto;
     }
+    @media (max-width: 600px) {
+      .nav-left {
+        font-size: 1.2rem;
+      }
+      h2 {
+        font-size: 1.6rem;
+      }
+      input,
+      select,
+      button {
+        max-width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
-
   <nav>
-    <div class="nav-left">🌫️ Grey Hustle</div>
+    <div class="nav-left">/Usage</div>
     <div class="nav-right">
       <a href="dashboard.html">Dashboard</a>
+      <a href="index.html">Home</a>
       <a href="calculator.html">Calculator</a>
-      <a href="crypto.html">Crypto</a>
       <a href="focus.html">Focus</a>
-      <a href="hotgirl.html">Hot Girl of The Week</a>
     </div>
   </nav>
 
@@ -99,15 +145,16 @@
       <option value="fertilizer">Liquid Fertilizer</option>
       <option value="fiesta">FIESTA</option>
       <option value="granular">Granular Fertilizer</option>
+      <option value="grub">Grub Control</option>
     </select>
 
-    <label for="applicationRate">Rate (kg/ft² or gal/ft²):</label>
+    <label for="applicationRate">Rate (kg/ft², gal/ft² or microns/1000ft²):</label>
     <input type="number" id="applicationRate" readonly />
 
-    <label for="totalUsed">Actual Applied (kg or gal):</label>
+    <label for="totalUsed">Actual Applied (kg, gal or microns):</label>
     <input type="number" id="totalUsed" placeholder="Enter amount used" />
 
-    <button class="submit" onclick="calculateUsage()">Submit</button>
+    <button onclick="calculateUsage()">Submit</button>
 
     <div class="result-box">
       <h3 id="result"></h3>
@@ -121,43 +168,55 @@
       const rates = {
         "fertilizer": 2.2,
         "fiesta": 400,
-        "granular": 1.36
+        "granular": 1.36,
+        "grub": 15000000 // microns per 1000 sq ft
       };
       rateInput.value = rates[product] || "";
     }
 
     function calculateUsage() {
+      const product = document.getElementById("product").value;
       const lawnSize = parseFloat(document.getElementById("lawnSize").value);
       const rate = parseFloat(document.getElementById("applicationRate").value);
       const used = parseFloat(document.getElementById("totalUsed").value);
       const result = document.getElementById("result");
 
-      if (isNaN(lawnSize) || isNaN(rate) || isNaN(used) || lawnSize <= 0 || rate <= 0) {
-        result.innerHTML = "⚠️ Please enter valid values.";
+      if (!product || isNaN(lawnSize) || isNaN(rate) || isNaN(used) || lawnSize <= 0 || rate <= 0) {
+        result.innerHTML = "⚠️ Please select a product and enter valid values.";
         return;
       }
 
-      const expected = lawnSize * rate;
-      const variance = ((used - expected) / expected) * 100;
-      let status = "";
+      let expected;
+      let variance, status;
 
-      if (Math.abs(variance) <= 5) {
-        status = "✅ Within ideal range.";
-      } else if (variance < -5) {
-        status = "⚠️ Under-applied.";
+      if (product === "grub") {
+        expected = (lawnSize / 1000) * rate;
+        variance = ((used - expected) / expected) * 100;
+        status = Math.abs(variance) <= 5 ? "✅ Within ideal range." :
+                 variance < -5 ? "⚠️ Under-applied." : "⚠️ Over-applied.";
+        result.innerHTML = `
+          Product: Grub Control<br>
+          Lawn Size: ${lawnSize.toFixed(2)} sq ft<br>
+          Required: ${expected.toLocaleString()} microns<br>
+          Used: ${used.toLocaleString()} microns<br>
+          Variance: ${variance.toFixed(1)}%<br>
+          ${status}
+        `;
       } else {
-        status = "⚠️ Over-applied.";
+        expected = lawnSize * rate;
+        variance = ((used - expected) / expected) * 100;
+        status = Math.abs(variance) <= 5 ? "✅ Within ideal range." :
+                 variance < -5 ? "⚠️ Under-applied." : "⚠️ Over-applied.";
+        result.innerHTML = `
+          Product: ${product.charAt(0).toUpperCase() + product.slice(1)}<br>
+          Lawn Size: ${lawnSize.toFixed(2)} sq ft<br>
+          Expected: ${expected.toFixed(2)}<br>
+          Used: ${used.toFixed(2)}<br>
+          Variance: ${variance.toFixed(1)}%<br>
+          ${status}
+        `;
       }
-
-      result.innerHTML = `
-        Lawn Size: ${lawnSize.toFixed(2)} sq ft<br>
-        Expected: ${expected.toFixed(2)}<br>
-        Used: ${used.toFixed(2)}<br>
-        Variance: ${variance.toFixed(1)}%<br>
-        ${status}
-      `;
     }
   </script>
-
 </body>
 </html>

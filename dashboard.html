@@ -2,24 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Grey Hustle HQ – Dashboard</title>
+  <title>Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
   <style>
-    body {
+    :root {
+      --primary: #1b4726;
+      --accent: #ffffff;
+      --bg-gradient: linear-gradient(135deg, #1b4726, #123219);
+      --card-bg: #ffffff;
+      --input-bg: #d9efd9;
+    }
+
+    * {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: var(--bg-gradient);
+      color: var(--accent);
+      padding: 2rem;
+      min-height: 100vh;
     }
 
     nav {
-      background: #2e7d32;
+      background: var(--primary);
       padding: 12px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      color: white;
       font-family: 'Orbitron', sans-serif;
     }
 
@@ -29,9 +43,10 @@
 
     .nav-right a {
       margin-left: 18px;
-      color: white;
+      color: var(--accent);
       text-decoration: none;
       font-weight: bold;
+      transition: text-decoration 0.3s ease;
     }
 
     .nav-right a:hover {
@@ -39,12 +54,13 @@
     }
 
     main {
-      max-width: 700px;
-      margin: 80px auto;
+      max-width: 720px;
+      margin: 60px auto;
       padding: 20px;
-      background: white;
+      background: var(--card-bg);
+      color: #1b4726;
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     h1 {
@@ -55,12 +71,34 @@
       padding: 10px;
       font-size: 1rem;
       width: 100%;
-      max-width: 300px;
+      max-width: 320px;
       margin-top: 10px;
+      border-radius: 6px;
+      border: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
-    #weatherResult {
-      margin-top: 20px;
+    input {
+      background-color: var(--input-bg);
+      color: #1b4726;
+    }
+
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(27, 71, 38, 0.6);
+    }
+
+    button {
+      background-color: var(--primary);
+      color: var(--accent);
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
     }
 
     #weatherIcon {
@@ -68,18 +106,20 @@
       margin: 10px 0;
       height: 60px;
     }
+
+    section {
+      margin-top: 40px;
+    }
   </style>
 </head>
 <body onload="getGreeting()">
-
   <nav>
-    <div class="nav-left">🌫️ Grey Hustle</div>
+    <div class="nav-left">Command Center</div>
     <div class="nav-right">
+      <a href="index.html">Home</a>
       <a href="dashboard.html">Dashboard</a>
       <a href="calculator.html">Calculator</a>
-      <a href="crypto.html">Crypto</a>
       <a href="focus.html">Focus</a>
-      <a href="hotgirl.html">Hot Girl of The Week</a>
     </div>
   </nav>
 
@@ -96,6 +136,14 @@
         <p id="weatherTemp"></p>
         <p id="weatherDesc"></p>
       </div>
+    </section>
+
+    <section id="beatCorner">
+      <h2>🎶 Bentley's Beat Corner</h2>
+      <input type="text" id="trackLink" placeholder="Paste music URL (YouTube or Spotify)" />
+      <button onclick="playTrack()">Play My Track</button>
+      <button onclick="shuffleBeat()">🎲 Shuffle Beat</button>
+      <div id="trackPlayer" style="margin-top: 20px;"></div>
     </section>
   </main>
 
@@ -146,7 +194,60 @@
         document.getElementById("weatherIcon").style.display = "none";
       }
     }
-  </script>
 
+    function playTrack() {
+      const link = document.getElementById("trackLink").value.trim();
+      const player = document.getElementById("trackPlayer");
+      if (!link) return;
+
+      let embed = "";
+      if (link.includes("youtube.com") || link.includes("youtu.be")) {
+        const idMatch = link.match(/(?:v=|\/)([a-zA-Z0-9_-]{11})/);
+        const videoId = idMatch ? idMatch[1] : null;
+        if (videoId) {
+          embed = `<iframe width="320" height="180" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+        }
+      } else if (link.includes("spotify.com")) {
+        embed = `<iframe src="${link.replace('track', 'embed/track')}" width="320" height="80" frameborder="0" allowtransparency="true"></iframe>`;
+      } else {
+        embed = `<p>🎧 Unsupported link format.</p>`;
+      }
+
+      player.innerHTML = embed;
+    }
+
+    function shuffleBeat() {
+      const links = [
+        "https://www.youtube.com/watch?v=7dI5837ktzc", // P.O.V. – The Clipse (Hip Hop)
+        "https://www.youtube.com/watch?v=vKYbRF6ZPZU", // Dim Kelly – Homily (Melodic House)
+        "https://www.youtube.com/watch?v=ooIUYXhI5Mw", // Hanumankind – Big Dawgs (Indian Hip Hop)
+        "https://www.youtube.com/watch?v=Lv-LyseOVZA"  // 90s French Rap Mix Vol.1 (French Hip Hop)
+      ];
+
+      const titles = [
+        "So Be It – Clipse",
+        "Homily – Dim Kelly",
+        "Big Dawgs – Hanumankind",
+        "90s French Rap Mix Vol.1"
+      ];
+            const index = Math.floor(Math.random() * links.length);
+      const link = links[index];
+      const title = titles[index];
+
+      const idMatch = link.match(/(?:v=|\/)([a-zA-Z0-9_-]{11})/);
+      const videoId = idMatch ? idMatch[1] : null;
+
+      let embed = "";
+      if (videoId) {
+        embed = `<iframe width="320" height="180" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+      } else {
+        embed = `<p>🎧 Unsupported link format.</p>`;
+      }
+
+      document.getElementById("trackLink").value = link;
+      document.getElementById("trackPlayer").innerHTML = `<p><strong>Now Playing:</strong> ${title}</p>` + embed;
+    }
+  </script>
 </body>
 </html>
+        

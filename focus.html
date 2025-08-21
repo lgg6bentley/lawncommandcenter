@@ -1,100 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Podmore Focus Timer</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .timer-container {
-            background: #fff;
-            padding: 2em 3em;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .timer {
-            font-size: 4em;
-            margin: 0.5em 0;
-            color: #2d7a2d;
-            letter-spacing: 0.1em;
-        }
-        button {
-            font-size: 1.1em;
-            padding: 0.5em 1.5em;
-            margin: 0.5em;
-            border: none;
-            border-radius: 6px;
-            background: #2d7a2d;
-            color: #fff;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        button:hover {
-            background: #256025;
-        }
-        .label {
-            font-size: 1.2em;
-            color: #555;
-            margin-bottom: 0.5em;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Podmore Focus Timer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #1b4726;
+      --accent: #ffffff;
+      --bg-gradient: linear-gradient(135deg, #1b4726, #123219);
+      --card-bg: #ffffff;
+      --input-bg: #d9efd9;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: var(--bg-gradient);
+      color: var(--accent);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://wallpaperaccess.com/full/963012.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      opacity: 0.15;
+      z-index: -1;
+    }
+
+    .timer-container {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  background: var(--card-bg);
+  padding: 1em 1.5em;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  text-align: center;
+  color: #1b4726;
+  max-width: 250px;
+}
+
+    .label {
+  font-size: 1.1em;
+  margin-bottom: 0.5em;
+}
+
+.timer {
+  font-size: 2.5em;
+  margin: 0.3em 0;
+}
+
+    input[type="number"] {
+  width: 80px;
+  padding: 0.3em;
+  font-size: 0.9em;
+}
+
+button {
+  font-size: 0.9em;
+  padding: 0.4em 1em;
+  margin: 0.3em;
+}
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+    }
+  </style>
 </head>
 <body>
-    <div class="timer-container">
-        <div class="label">Podmore Focus Timer</div>
-        <div class="timer" id="timer">25:00</div>
-        <button onclick="startTimer()">Start</button>
-        <button onclick="pauseTimer()">Pause</button>
-        <button onclick="resetTimer()">Reset</button>
-    </div>
-    <script>
-        let duration = 25 * 60; // 25 minutes
-        let timeLeft = duration;
-        let timerInterval = null;
-        const timerDisplay = document.getElementById('timer');
+  <div class="timer-container">
+    <div class="label">Podmore Focus Timer</div>
 
-        function updateDisplay() {
-            const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-            const seconds = (timeLeft % 60).toString().padStart(2, '0');
-            timerDisplay.textContent = `${minutes}:${seconds}`;
+    <label for="durationInput">Set Timer (minutes):</label><br />
+    <input type="number" id="durationInput" value="25" min="1" max="120" />
+
+    <div class="timer" id="timer">25:00</div>
+
+    <button onclick="startTimer()">Start</button>
+    <button onclick="pauseTimer()">Pause</button>
+    <button onclick="resetTimer()">Reset</button>
+    <button onclick="toggleMute()" id="muteBtn">🔊 Sound On</button>
+  </div>
+
+  <audio id="bongSound" src="https://freesound.org/data/previews/411/411642_5121236-lq.mp3" preload="auto"></audio>
+  <div class="goals-container">
+    <h2>🧠 Health Goals Dashboard</h2>
+    <ul>
+      <li>🍔 <strong>No Fast Food:</strong> Avoid all fast food purchases.</li>
+      <li>🍎 <strong>Only Buy Fruits:</strong> Stick to fresh fruit when shopping.</li>
+      <li>🚫 <strong>No Sugar:</strong> Eliminate added sugars from your diet.</li>
+      <li>⏰ <strong>8-Hour Fast:</strong> Eat only within your chosen 8-hour window.</li>
+    </ul>
+  </div>
+  <script>
+    let duration = 25 * 60;
+    let timeLeft = duration;
+    let timerInterval = null;
+
+    const timerDisplay = document.getElementById('timer');
+    const bongSound = document.getElementById('bongSound');
+    const muteBtn = document.getElementById('muteBtn');
+    let isMuted = false;
+
+    function getDurationFromInput() {
+      const minutes = parseInt(document.getElementById('durationInput').value, 10);
+      return isNaN(minutes) ? 25 * 60 : minutes * 60;
+    }
+
+    function updateDisplay() {
+      const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+      const seconds = (timeLeft % 60).toString().padStart(2, '0');
+      timerDisplay.textContent = `${minutes}:${seconds}`;
+    }
+
+    function startTimer() {
+      if (timerInterval) return;
+      duration = getDurationFromInput();
+      timeLeft = duration;
+      updateDisplay();
+      timerInterval = setInterval(() => {
+        if (timeLeft > 0) {
+          timeLeft--;
+          updateDisplay();
+        } else {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          if (!isMuted) bongSound.play();
+          alert('Focus session complete!');
         }
+      }, 1000);
+    }
 
-        function startTimer() {
-            if (timerInterval) return;
-            timerInterval = setInterval(() => {
-                if (timeLeft > 0) {
-                    timeLeft--;
-                    updateDisplay();
-                } else {
-                    clearInterval(timerInterval);
-                    timerInterval = null;
-                    alert('Focus session complete!');
-                }
-            }, 1000);
-        }
+    function pauseTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
 
-        function pauseTimer() {
-            clearInterval(timerInterval);
-            timerInterval = null;
-        }
+    function resetTimer() {
+      pauseTimer();
+      duration = getDurationFromInput();
+      timeLeft = duration;
+      updateDisplay();
+    }
 
-        function resetTimer() {
-            pauseTimer();
-            timeLeft = duration;
-            updateDisplay();
-        }
+    function toggleMute() {
+      isMuted = !isMuted;
+      bongSound.muted = isMuted;
+      muteBtn.textContent = isMuted ? '🔇 Sound Off' : '🔊 Sound On';
+    }
 
-        updateDisplay();
-    </script>
+    updateDisplay();
+  </script>
 </body>
 </html>

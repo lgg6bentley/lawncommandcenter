@@ -61,3 +61,54 @@ a.button:hover {
   p { font-size: 1rem; }
   a.button { padding: 0.6rem 1.5rem; font-size: 1rem; }
 }
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  justify-content: flex-end;
+  margin-top: 0.5em;
+}
+
+.button-group button {
+  flex: 1 1 auto;
+  min-width: 80px;
+}
+.goals-container {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--card-bg);
+  color: #1b4726;
+  padding: 1em 1.5em;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  max-width: 3.goals-container {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--card-bg);
+  color: #1b4726;
+  padding: 1em 1.5em;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  max-width: 300px;
+  text-align: left;
+}00px;
+}
+
+.goals-container h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+  text-align: center;
+}
+
+.goals-container ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.goals-container li {
+  margin-bottom: 0.6em;
+  font-size: 0.95em;
+}

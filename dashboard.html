@@ -123,9 +123,7 @@
       <a href="index.html">Home</a>
       <a href="dashboard.html">Dashboard</a>
       <a href="calculator.html">Application Calculator</a>
-      <a href="betsports.html">Bets Arena
-        
-      </a>
+      <a href="betsports.html">Bets Arena</a>
     </div>
   </nav>
 
@@ -171,7 +169,7 @@
       const city = document.getElementById("cityInput").value.trim();
       if (!city) return;
 
-      const apiKey = "12bdad6e582cb0b8a9643c0798e7b304"; // Replace with your own key
+      const apiKey = "12bdad6e582cb0b8a9643c0798e7b304";
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
 
       try {
@@ -202,17 +200,20 @@
     }
 
     function playTrack() {
-      const link = document.getElementById("trackLink").value.trim();
+      let link = document.getElementById("trackLink").value.trim();
       const player = document.getElementById("trackPlayer");
       if (!link) return;
 
+      if (link.includes("m.youtube.com")) {
+        link = link.replace("m.youtube.com", "youtube.com");
+      }
+
       let embed = "";
-      if (link.includes("youtube.com") || link.includes("youtu.be")) {
-        const idMatch = link.match(/(?:v=|\/)([a-zA-Z0-9_-]{11})/);
-        const videoId = idMatch ? idMatch[1] : null;
-        if (videoId) {
-          embed = `<iframe width="320" height="180" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-        }
+      const idMatch = link.match(/(?:v=|\/|embed\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+      const videoId = idMatch ? idMatch[1] : null;
+
+      if (videoId) {
+        embed = `<iframe width="320" height="180" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
       } else if (link.includes("spotify.com")) {
         embed = `<iframe src="${link.replace('track', 'embed/track')}" width="320" height="80" frameborder="0" allowtransparency="true"></iframe>`;
       } else {
@@ -224,27 +225,25 @@
 
     function shuffleBeat() {
       const links = [
-<<<<<<< HEAD
-        "https://www.youtube.com/watch?v=7dI5837ktzc", // P.O.V. – The Clipse (Hip Hop)
-        "https://www.youtube.com/watch?v=vKYbRF6ZPZU", // Dim Kelly
-
-"https://m.youtube.com/watch?v=4vYOwhll1fs&pp=ygUqYmlsbGllIGVpbGlzaCByYXAgc29uZyBhcm1hbmkgd2hpdGUgbHlyaWNz" , // Armani 
-
-  "https://www.youtube.com/watch?v=Lv-LyseOVZA"  // 90s French Rap Mix Vol.1 (French Hip Hop)
-=======
         "https://www.youtube.com/watch?v=7dI5837ktzc",
         "https://www.youtube.com/watch?v=vKYbRF6ZPZU",
-        "https://www.youtube.com/watch?v=ooIUYXhI5Mw",
+        "https://www.youtube.com/watch?v=4vYOwhll1fs",
         "https://www.youtube.com/watch?v=Lv-LyseOVZA"
->>>>>>> 576506d (new layout)
-      ];
-
-      const titles = [
-        "P.O.V. – Clipse",
-        "Homily – Dim Kelly",
-        "Billie Ellish – Armani",
-        "90s French Rap Mix Vol.1"
       ];
 
       const index = Math.floor(Math.random() * links.length);
-      const link = links
+      const link = links[index];
+      const player = document.getElementById("trackPlayer");
+
+        const idMatch = link.match(/(?:v=|\/|embed\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+      const videoId = idMatch ? idMatch[1] : null;
+
+      if (videoId) {
+        player.innerHTML = `<iframe width="320" height="180" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+      } else {
+        player.innerHTML = `<p>🎧 Couldn't load track.</p>`;
+      }
+    }
+  </script>
+</body>
+</html>

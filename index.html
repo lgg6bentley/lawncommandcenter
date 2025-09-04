@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lawn Command Center</title>
+  <title>LCC - Matrix Mode</title>
   <style>
     :root {
-      --primary: #2e8b57;
-      --accent: #ffffff;
-      --bg-gradient: linear-gradient(135deg, #2e8b57, #1c5c38);
+      --primary: #00ff00;
+      --accent: #000000;
+      --bg-gradient: radial-gradient(circle at center, #000000 0%, #001100 100%);
+      --glow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
     }
 
     * {
@@ -18,9 +19,9 @@
     }
 
     body {
-      font-family: "Segoe UI", sans-serif;
+      font-family: 'Courier New', Courier, monospace;
       background: var(--bg-gradient);
-      color: var(--accent);
+      color: var(--primary);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -28,34 +29,37 @@
       height: 100vh;
       text-align: center;
       padding: 1rem;
+      overflow: hidden;
     }
 
     h1 {
       font-size: 3rem;
       margin-bottom: 0.5rem;
+      text-shadow: var(--glow);
+      animation: flicker 2s infinite;
     }
 
     p {
       font-size: 1.2rem;
       margin-bottom: 2rem;
-      color: #e0ffe0;
+      color: #00cc00;
     }
 
     a {
       display: inline-block;
       padding: 0.8rem 2rem;
-      background-color: var(--accent);
-      color: var(--primary);
+      background-color: var(--primary);
+      color: var(--accent);
       font-weight: bold;
       text-decoration: none;
-      border-radius: 30px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      border-radius: 5px;
+      box-shadow: var(--glow);
       transition: transform 0.2s ease, box-shadow 0.3s ease;
     }
 
     a:hover {
       transform: scale(1.05);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+      box-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00;
     }
 
     @media (max-width: 600px) {
@@ -63,11 +67,16 @@
       p { font-size: 1rem; }
       a { padding: 0.6rem 1.5rem; font-size: 1rem; }
     }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
   </style>
 </head>
 <body>
-  <h1>Lawn Command Center 🌿</h1>
-  <p>Control, monitor, and beautify your turf with precision.</p>
-  <a href="dashboard.html">Enter Dashboard</a>
+  <h1>LCC 🕶️</h1>
+  <p>Control, monitor,with precision.<br>Welcome to the system.</p>
+  <a href="dashboard.html">Enter</a>
 </body>
 </html>

@@ -2,16 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Dashboard</title>
+  <title>LCC</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --primary: #1b4726;
-      --accent: #ffffff;
-      --bg-gradient: linear-gradient(135deg, #1b4726, #123219);
-      --card-bg: #ffffff;
-      --input-bg: #d9efd9;
+      --primary: #cce8cc;
+      --accent: #1a1a1a;
+      --bg-gradient: linear-gradient(to bottom, #0a0a0a 0%, #1a1a1a 100%);
+      --hover-bg: #2a2a2a;
     }
 
     * {
@@ -21,94 +20,99 @@
     }
 
     body {
-      font-family: "Segoe UI", sans-serif;
+      font-family: 'Roboto Mono', monospace;
       background: var(--bg-gradient);
-      color: var(--accent);
-      padding: 2rem;
-      min-height: 100vh;
+      color: var(--primary);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      padding: 1rem;
+      overflow: hidden;
     }
 
     nav {
-      background: var(--primary);
-      padding: 12px 24px;
+      width: 100%;
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      font-family: 'Orbitron', sans-serif;
+      padding: 1rem;
+      font-size: 1rem;
+      color: var(--primary);
     }
 
     .nav-left {
-      font-size: 1.5rem;
+      font-weight: bold;
     }
 
     .nav-right a {
-      margin-left: 18px;
-      color: var(--accent);
+      margin-left: 1rem;
+      color: var(--primary);
       text-decoration: none;
-      font-weight: bold;
-      transition: text-decoration 0.3s ease;
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      transition: background 0.3s ease;
     }
 
     .nav-right a:hover {
-      text-decoration: underline;
-    }
-
-    main {
-      max-width: 720px;
-      margin: 60px auto;
-      padding: 20px;
-      background: var(--card-bg);
-      color: #1b4726;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      background: var(--hover-bg);
     }
 
     h1 {
-      margin-top: 0;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
     }
 
-    input, button {
-      padding: 10px;
+    h2 {
+      margin-top: 2rem;
+      font-size: 1.5rem;
+    }
+
+    p {
       font-size: 1rem;
-      width: 100%;
-      max-width: 320px;
-      margin-top: 10px;
-      border-radius: 6px;
-      border: none;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 1rem;
+      color: #a0cfa0;
+    }
+
+    a, button {
+      display: inline-block;
+      padding: 0.6rem 1.5rem;
+      background-color: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background 0.3s ease, transform 0.2s ease;
+      margin: 0.5rem;
+      cursor: pointer;
+    }
+
+    a:hover, button:hover {
+      background-color: var(--hover-bg);
+      transform: scale(1.02);
     }
 
     input {
-      background-color: var(--input-bg);
-      color: #1b4726;
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid #444;
+      background-color: #111;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      width: 80%;
+      max-width: 300px;
     }
 
-    input:focus {
-      outline: none;
-      box-shadow: 0 0 5px rgba(27, 71, 38, 0.6);
+    img {
+      margin-top: 1rem;
     }
 
-    button {
-      background-color: var(--primary);
-      color: var(--accent);
-      font-weight: bold;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.3s ease;
-    }
-
-    button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
-    }
-
-    #weatherIcon {
-      display: block;
-      margin: 10px 0;
-      height: 60px;
-    }
-
-    section {
-      margin-top: 40px;
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      p { font-size: 0.9rem; }
+      a, button { padding: 0.5rem 1rem; font-size: 0.9rem; }
     }
   </style>
 </head>
@@ -118,9 +122,10 @@
     <div class="nav-right">
       <a href="index.html">Home</a>
       <a href="dashboard.html">Dashboard</a>
-      <a href="calculator.html">Calculator</a>
-      <a href="focus.html">Focus</a>
-      <a href="pick2game.html">Pick 2 Game</a>
+      <a href="calculator.html">Application Calculator</a>
+      <a href="betsports.html">Bets Arena
+        
+      </a>
     </div>
   </nav>
 
@@ -146,14 +151,12 @@
       <button onclick="shuffleBeat()">🎲 Shuffle Beat</button>
       <div id="trackPlayer" style="margin-top: 20px;"></div>
     </section>
-
-    
   </main>
 
   <script>
     function getGreeting() {
       const hour = new Date().getHours();
-      const name = "Specialist";
+      const name = "Bentley";
       let greeting = "Welcome";
 
       if (hour >= 5 && hour < 12) greeting = "🌅 Good morning";
@@ -168,7 +171,7 @@
       const city = document.getElementById("cityInput").value.trim();
       if (!city) return;
 
-      const apiKey = "12bdad6e582cb0b8a9643c0798e7b304"; // Replace this!
+      const apiKey = "12bdad6e582cb0b8a9643c0798e7b304"; // Replace with your own key
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
 
       try {
@@ -221,12 +224,19 @@
 
     function shuffleBeat() {
       const links = [
+<<<<<<< HEAD
         "https://www.youtube.com/watch?v=7dI5837ktzc", // P.O.V. – The Clipse (Hip Hop)
         "https://www.youtube.com/watch?v=vKYbRF6ZPZU", // Dim Kelly
 
 "https://m.youtube.com/watch?v=4vYOwhll1fs&pp=ygUqYmlsbGllIGVpbGlzaCByYXAgc29uZyBhcm1hbmkgd2hpdGUgbHlyaWNz" , // Armani 
 
   "https://www.youtube.com/watch?v=Lv-LyseOVZA"  // 90s French Rap Mix Vol.1 (French Hip Hop)
+=======
+        "https://www.youtube.com/watch?v=7dI5837ktzc",
+        "https://www.youtube.com/watch?v=vKYbRF6ZPZU",
+        "https://www.youtube.com/watch?v=ooIUYXhI5Mw",
+        "https://www.youtube.com/watch?v=Lv-LyseOVZA"
+>>>>>>> 576506d (new layout)
       ];
 
       const titles = [
@@ -235,24 +245,6 @@
         "Billie Ellish – Armani",
         "90s French Rap Mix Vol.1"
       ];
-            const index = Math.floor(Math.random() * links.length);
-      const link = links[index];
-      const title = titles[index];
 
-      const idMatch = link.match(/(?:v=|\/)([a-zA-Z0-9_-]{11})/);
-      const videoId = idMatch ? idMatch[1] : null;
-
-      let embed = "";
-      if (videoId) {
-        embed = `<iframe width="320" height="180" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-      } else {
-        embed = `<p>🎧 Unsupported link format.</p>`;
-      }
-
-      document.getElementById("trackLink").value = link;
-      document.getElementById("trackPlayer").innerHTML = `<p><strong>Now Playing:</strong> ${title}</p>` + embed;
-    }
-  </script>
-</body>
-</html>
-        
+      const index = Math.floor(Math.random() * links.length);
+      const link = links

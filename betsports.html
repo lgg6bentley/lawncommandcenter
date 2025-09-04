@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>College Football Rotation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #cce8cc;
+      --accent: #1a1a1a;
+      --bg-gradient: linear-gradient(to bottom, #0a0a0a 0%, #1a1a1a 100%);
+      --hover-bg: #2a2a2a;
+      --input-bg: #111;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto Mono', monospace;
+      background: var(--bg-gradient);
+      color: var(--primary);
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    nav {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem;
+      font-size: 1rem;
+      color: var(--primary);
+    }
+
+    .nav-left {
+      font-weight: bold;
+    }
+
+    .nav-right a {
+      margin-left: 1rem;
+      color: var(--primary);
+      text-decoration: none;
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      transition: background 0.3s ease;
+    }
+
+    .nav-right a:hover {
+      background: var(--hover-bg);
+    }
+
+    main {
+      max-width: 800px;
+      margin: 60px auto;
+      padding: 2rem;
+      background-color: #1a1a1a;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .matchup {
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background-color: #111;
+      border: 1px solid #444;
+      border-radius: 6px;
+    }
+
+    .matchup h2 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: #a0cfa0;
+    }
+
+    .matchup p {
+      font-size: 0.95rem;
+      margin: 0.3rem 0;
+    }
+
+    .source-link {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .source-link a {
+      color: #88ff88;
+      text-decoration: underline;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      main {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-left">College Football Rotation</div>
+    <div class="nav-right">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="calculator.html">Application Calculator</a>
+    </div>
+  </nav>
+
+  <main>
+    <h1>🏈 College Football Matchups – September Rotation</h1>
+
+    <div class="matchup">
+  <h2>Iowa vs Iowa State</h2>
+  <p><strong>Kickoff:</strong> Sat, Sept 06 @ 12:00 PM ET</p>
+  <p><strong>Trend:</strong> Iowa leads series 46–23</p>
+</div>
+
+<div class="matchup">
+  <h2>Oklahoma State vs Oregon</h2>
+  <p><strong>Kickoff:</strong> Sat, Sept 06 @ 3:30 PM ET</p>
+  <p><strong>Trend:</strong> Oregon is 5–1 ATS in last 6 home games</p>
+</div>
+
+<div class="matchup">
+  <h2>Ole Miss vs Kentucky</h2>
+  <p><strong>Kickoff:</strong> Sat, Sept 06 @ 3:30 PM ET</p>
+  <p><strong>Trend:</strong> Ole Miss is 4–0 SU in last 4 meetings</p>
+</div>
+
+<div class="matchup">
+  <h2>Toledo vs North Carolina</h2>
+  <p><strong>Kickoff:</strong> Sat, Sept 06 @ 7:00 PM ET</p>
+  <p><strong>Trend:</strong> UNC is 6–2 ATS in non-conference games</p>
+</div>
+
+<div class="matchup">
+  <h2>Marshall vs Western Kentucky</h2>
+  <p><strong>Kickoff:</strong> Sat, Sept 06 @ 7:00 PM ET</p>
+  <p><strong>Trend:</strong> WKU is 3–1 SU in last 4 vs Marshall</p>
+</div>

@@ -2,68 +2,81 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Lawn Calculator</title>
+  <title>Application Calculator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --primary: #1b4726;
-      --accent: #ffffff;
-      --bg-gradient: linear-gradient(135deg, #1b4726, #123219);
-      --input-bg: #d9efd9;
+      --primary: #cce8cc;
+      --accent: #1a1a1a;
+      --bg-gradient: linear-gradient(to bottom, #0a0a0a 0%, #1a1a1a 100%);
+      --hover-bg: #2a2a2a;
+      --input-bg: #111;
     }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
     body {
-      font-family: "Segoe UI", sans-serif;
+      font-family: 'Roboto Mono', monospace;
       background: var(--bg-gradient);
-      color: var(--accent);
+      color: var(--primary);
       padding: 2rem;
       min-height: 100vh;
     }
+
     nav {
-      background: var(--primary);
-      padding: 12px 24px;
+      width: 100%;
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      font-family: 'Orbitron', sans-serif;
+      padding: 1rem;
+      font-size: 1rem;
+      color: var(--primary);
     }
+
     .nav-left {
-      font-size: 1.5rem;
-    }
-    .nav-right a {
-      margin-left: 18px;
-      color: var(--accent);
-      text-decoration: none;
       font-weight: bold;
-      transition: text-decoration 0.3s ease;
     }
+
+    .nav-right a {
+      margin-left: 1rem;
+      color: var(--primary);
+      text-decoration: none;
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      transition: background 0.3s ease;
+    }
+
     .nav-right a:hover {
-      text-decoration: underline;
+      background: var(--hover-bg);
     }
+
     main {
       max-width: 600px;
-      margin: 80px auto;
-      padding: 20px;
-      background: #ffffff;
-      color: #1b4726;
+      margin: 60px auto;
+      padding: 2rem;
+      background-color: #1a1a1a;
       border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
+
     h2 {
       font-size: 2rem;
       text-align: center;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary);
     }
+
     label {
       font-weight: bold;
       margin-top: 1rem;
       display: block;
+      color: var(--primary);
     }
+
     input,
     select,
     button {
@@ -72,53 +85,44 @@
       padding: 0.75rem;
       margin: 10px auto;
       font-size: 1rem;
-      border: none;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border: 1px solid #444;
+      border-radius: 6px;
+      background-color: var(--input-bg);
+      color: var(--primary);
       display: block;
     }
-    input,
-    select {
-      background-color: var(--input-bg);
-      color: #1b4726;
-    }
+
     input:focus, select:focus {
       outline: none;
-      box-shadow: 0 0 5px rgba(27, 71, 38, 0.6);
+      box-shadow: 0 0 5px rgba(204, 232, 204, 0.4);
     }
+
     button {
-      background-color: var(--primary);
-      color: var(--accent);
+      background-color: transparent;
+      border: 1px solid var(--primary);
       font-weight: bold;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      transition: background 0.3s ease, transform 0.2s ease;
     }
+
     button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+      background-color: var(--hover-bg);
+      transform: scale(1.02);
     }
+
     .result-box {
       margin-top: 20px;
       padding: 1rem;
-      background: var(--input-bg);
-      border: 2px solid #aaa;
-      border-radius: 8px;
+      background-color: #111;
+      border: 1px solid #444;
+      border-radius: 6px;
       text-align: center;
-      max-width: 360px;
-      margin-inline: auto;
+      color: #a0cfa0;
     }
+
     @media (max-width: 600px) {
-      .nav-left {
-        font-size: 1.2rem;
-      }
-      h2 {
-        font-size: 1.6rem;
-      }
-      input,
-      select,
-      button {
-        max-width: 100%;
-      }
+      h2 { font-size: 1.6rem; }
+      input, select, button { max-width: 100%; }
     }
   </style>
 </head>
@@ -127,14 +131,14 @@
     <div class="nav-left">/Usage</div>
     <div class="nav-right">
       <a href="dashboard.html">Dashboard</a>
-      <a href="index.html">Home</a>
-      <a href="calculator.html">Calculator</a>
-      <a href="focus.html">Focus</a>
+      <a href="fc.html">Function Calculator</a>
+      <a href="calculator.html">Application Calculator</a>
+     
     </div>
   </nav>
 
   <main>
-    <h2>🌿 Lawn Application Calculator</h2>
+    <h2>Application Calculator</h2>
 
     <label for="lawnSize">Lawn Size (sq ft):</label>
     <input type="number" id="lawnSize" placeholder="Enter lawn size" />
@@ -169,7 +173,7 @@
         "fertilizer": 2.2,
         "fiesta": 400,
         "granular": 1.36,
-        "grub": 15000000 // microns per 1000 sq ft
+        "grub": 15000000
       };
       rateInput.value = rates[product] || "";
     }
@@ -186,8 +190,7 @@
         return;
       }
 
-      let expected;
-      let variance, status;
+      let expected, variance, status;
 
       if (product === "grub") {
         expected = (lawnSize / 1000) * rate;

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Function Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #cce8cc;
+      --accent: #1a1a1a;
+      --bg-gradient: linear-gradient(to bottom, #0a0a0a 0%, #1a1a1a 100%);
+      --hover-bg: #2a2a2a;
+      --input-bg: #111;
+      --alert: #e74c3c;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto Mono', monospace;
+      background: var(--bg-gradient);
+      color: var(--primary);
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    nav {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem;
+      font-size: 1rem;
+      color: var(--primary);
+    }
+
+    .nav-left {
+      font-weight: bold;
+    }
+
+    .nav-right a {
+      margin-left: 1rem;
+      color: var(--primary);
+      text-decoration: none;
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      transition: background 0.3s ease;
+    }
+
+    .nav-right a:hover {
+      background: var(--hover-bg);
+    }
+
+    main {
+      max-width: 600px;
+      margin: 60px auto;
+      padding: 2rem;
+      background-color: #1a1a1a;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: #a0cfa0;
+    }
+
+    input {
+      padding: 0.75rem;
+      font-size: 1rem;
+      width: 100%;
+      max-width: 400px;
+      margin: 0.5rem auto;
+      border-radius: 6px;
+      border: 1px solid #444;
+      background-color: var(--input-bg);
+      color: var(--primary);
+      display: block;
+    }
+
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(204, 232, 204, 0.4);
+    }
+
+    button {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      margin-top: 1rem;
+      border-radius: 6px;
+      border: 1px solid var(--primary);
+      background-color: transparent;
+      color: var(--primary);
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: var(--hover-bg);
+      transform: scale(1.02);
+    }
+
+    .result-box {
+      margin-top: 2rem;
+      padding: 1rem;
+      background-color: #111;
+      border: 1px solid #444;
+      border-radius: 6px;
+      color: #a0cfa0;
+    }
+
+    .error {
+      color: var(--alert);
+    }
+
+    @media (max-width: 600px) {
+      input {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-left">Command Center</div>
+    <div class="nav-right">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="calculator.html">Calculator</a>
+            <a href="pick2game.html">Pick 2 Game</a>
+    </div>
+  </nav>
+
+  <main>
+    <h1>Function Calculator</h1>
+    <p>Enter a JavaScript expression (e.g. <code>2 * (3 + 4)</code>, <code>Math.sqrt(16)</code>, <code>Math.sin(Math.PI / 2)</code>)</p>
+    <input type="text" id="expressionInput" placeholder="Enter expression" />
+    <button onclick="calculateExpression()">Calculate</button>
+    <div class="result-box" id="calcResult"></div>
+  </main>
+
+  <script>
+    function calculateExpression() {
+      const input = document.getElementById("expressionInput").value.trim();
+      const resultBox = document.getElementById("calcResult");
+
+      if (!input) {
+        resultBox.innerHTML = "<p class='error'>❌ Please enter an expression.</p>";
+        return;
+      }
+
+      try {
+        const result = eval(input);
+        resultBox.innerHTML = `<p>✅ Result: <strong>${result}</strong></p>`;
+      } catch (err) {
+        resultBox.innerHTML = `<p class='error'>⚠️ Invalid expression.</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
